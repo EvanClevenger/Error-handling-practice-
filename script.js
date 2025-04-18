@@ -107,6 +107,34 @@ const renderError = function (message) {
 //     });
 // };
 
+const position = function () {
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      whereAmI(lat, lng);
+      console.log(lat, lng);
+    },
+    function () {
+      alert('could not get location');
+    }
+  );
+};
+position();
+
+const whereAmI = function (lat, lng) {
+  fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+  )
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      console.log(`You are in ${data.city},${data.principalSubdivision}`);
+
+      // const country = data.
+    });
+};
+
 const getJSON = function (url, errorMsg = 'Something went wrong') {
   return fetch(url).then(response => {
     if (!response.ok) throw new Error(`${errorMsg} '${response.status}'`);
