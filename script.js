@@ -110,14 +110,14 @@ const renderError = function (message) {
 let lat;
 let lng;
 
-const position = function (load) {
+const position = function () {
   navigator.geolocation.getCurrentPosition(function (position) {
     lat = position.coords.latitude;
     lng = position.coords.longitude;
     console.log(lat, lng);
-    load(lat, lng);
   });
 };
+position();
 
 const whereAmI = function (lat, lng) {
   fetch(
@@ -177,7 +177,6 @@ const whereAmI = function (lat, lng) {
 // };
 
 btn.addEventListener('click', function () {
-  // position();
-  whereAmI();
+  whereAmI(lat, lng);
 });
 // getCountryData('ushdf');
