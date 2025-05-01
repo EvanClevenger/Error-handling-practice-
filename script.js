@@ -107,37 +107,37 @@ const renderError = function (message) {
 //       countriesContainer.style.opacity = 1;
 //     });
 // };
-let lat;
-let lng;
+// let lat;
+// let lng;
 
-const position = function () {
-  navigator.geolocation.getCurrentPosition(function (position) {
-    lat = position.coords.latitude;
-    lng = position.coords.longitude;
-    console.log(lat, lng);
-  });
-};
-position();
+// const position = function () {
+//   navigator.geolocation.getCurrentPosition(function (position) {
+//     lat = position.coords.latitude;
+//     lng = position.coords.longitude;
+//     // console.log(lat, lng);
+//   });
+// };
+// position();
 
-const whereAmI = function (lat, lng) {
-  fetch(
-    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
-  )
-    .then(res => res.json())
-    .then(data => {
-      console.log(data);
-      console.log(`You are in ${data.city},${data.principalSubdivision}`);
-      if (!data) throw new Error(`Your location could not be found`);
-      return fetch(`https://restcountries.com/v3.1/alpha/${data.countryCode}`);
-    })
-    .then(res => res.json())
-    .then(data => {
-      renderCountry(data[0]);
-    })
-    .catch(err => {
-      console.log(`There was a problem, ${err.message}`);
-    });
-};
+// const whereAmI = function (lat, lng) {
+//   fetch(
+//     `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+//   )
+//     .then(res => res.json())
+//     .then(data => {
+//       console.log(data);
+//       console.log(`You are in ${data.city},${data.principalSubdivision}`);
+//       if (!data) throw new Error(`Your location could not be found`);
+//       return fetch(`https://restcountries.com/v3.1/alpha/${data.countryCode}`);
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//       renderCountry(data[0]);
+//     })
+//     .catch(err => {
+//       console.log(`There was a problem, ${err.message}`);
+//     });
+// };
 
 // const getJSON = function (url, errorMsg = 'Something went wrong') {
 //   return fetch(url).then(response => {
@@ -176,7 +176,120 @@ const whereAmI = function (lat, lng) {
 //     });
 // };
 
-btn.addEventListener('click', function () {
-  whereAmI(lat, lng);
-});
+// btn.addEventListener('click', function () {
+//   // whereAmI(lat, lng);
+// });
 // getCountryData('ushdf');
+
+// console.log('Test start');
+// setTimeout(() => console.log('0 second timer'), 0);
+// Promise.resolve('Resolved promise 1 ').then(res => console.log(res));
+// Promise.resolve('Resolved promise 2').then(res => {
+//   for (let i = 0; i < 1000000000; i++) {}
+//   console.log(res);
+// });
+// console.log('Test end');
+
+// const lotteryPromise = new Promise(function (resolve, reject) {
+//   console.log('Lottery numbers are being drawn');
+//   setTimeout(function () {
+//     if (Math.random() >= 0.5) {
+//       resolve('You win!');
+//     } else {
+//       reject(new Error('You lost ;('));
+//     }
+//   }, 7000);
+// });
+
+// lotteryPromise.then(res => console.log(res)).catch(err => console.log(err));
+
+// settimeout as a promise
+// const wait = function (seconds) {
+//   return new Promise(function (resolve) {
+//     setTimeout(resolve, seconds * 1000);
+//   });
+// };
+
+// wait(1)
+//   .then(() => {
+//     console.log('I waited 1 second');
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log('I waited 2 seconds');
+//     return wait(1);
+//   })
+//   .then(() => {
+//     console.log('I waited 3 seconds');
+//     return wait(1);
+//   })
+//   .then(() => console.log('I waited 4 seconds'));
+
+// Promise.resolve('abcde').then(x => console.log(x));
+// Promise.reject(new Error('huge problemo')).catch(x => console.error(x));
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+// getPosition().then(pos => console.log(pos));
+
+// const whereAmI = function () {
+//   getPosition()
+//     .then(pos => {
+//       const { latitude: lat, longitude: lng } = pos.coords;
+
+//       return fetch(
+//         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`
+//       );
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//       console.log(data);
+//       console.log(`You are in ${data.city},${data.principalSubdivision}`);
+//       if (!data) throw new Error(`Your location could not be found`);
+//       return fetch(`https://restcountries.com/v3.1/alpha/${data.countryCode}`);
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//       renderCountry(data[0]);
+//     })
+//     .catch(err => {
+//       console.log(`There was a problem, ${err.message}`);
+//     });
+// };
+
+// btn.addEventListener('click', function () {
+//   whereAmI();
+// });
+
+//coding challenge 2
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 2000);
+  });
+};
+
+const imgContainer = document.querySelector('.images');
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+
+    img.src = imgPath;
+
+    img.addEventListener('load', function () {
+      imgContainer.append(img);
+      resolve(img);
+
+      img;
+    });
+  });
+};
+
+createImage('/img/img-2.jpg');
