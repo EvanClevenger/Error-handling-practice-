@@ -107,6 +107,7 @@ body {
   color: white;
   background-color: orangered;
   cursor: pointer;
+  margin: 20px;
 }
 
 .images {
